@@ -1,35 +1,27 @@
-from fastapi import FastAPI, HTTPException, status
+from fastapi import HTTPException, status, APIRouter
+from database import users
 
-users = [
-    {
-        "name": "Garfield",
-        "age": 8
-    },
-    {
-        "name":"Petter",
-        "age": 16
-    }
-]
+router = APIRouter(
+    prefix="/users",
+    tags="Users"
+)
 
-app = FastAPI(title="TaskBox API")
-
-@app.get("/users")
+@router.get("/users")
 def get_users():
     return {
         "users" : users
     }
 
-@app.get("/users/{user_id}")
+@router.get("/users/{user_id}")
 def get_user(user_id: int):
     if user_id < 0 or user_id >= len(users):
         raise HTTPException(status_code=404, detail="User not found")
-    
-    return {
-        "users": users
-    }
 
-@app.delete("/users/{user_id}")
-def get_user(user_id: int):
+
+    return 
+
+@router.delete("/users/{user_id}")
+def delete_user(user_id: int):
     if user_id < 0 or user_id >= len(users):
         raise HTTPException(status_code=404, detail="User not found")
     
